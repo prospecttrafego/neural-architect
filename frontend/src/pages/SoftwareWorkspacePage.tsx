@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Canvas } from '@/components/canvas/Canvas';
 import { NodePalette } from '@/components/canvas/panels/NodePalette';
 import { useProject } from '@/hooks/useProjects';
@@ -13,8 +13,7 @@ import { useCanvasAutoSave } from '@/hooks/useCanvasAutoSave';
 import { DocumentsPanel } from '@/components/canvas/documents/DocumentsPanel';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { NodeInspector } from '@/components/canvas/panels/NodeInspector';
-import { PartnerChat } from '@/components/canvas/panels/PartnerChat';
-import { cn } from '@/lib/utils';
+import { PartnerChat } from '@/components/canvas/partner/PartnerChat';
 
 export function SoftwareWorkspacePage() {
     const { projectId } = useParams<{ projectId: string }>();
