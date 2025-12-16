@@ -42,6 +42,14 @@ class ApiClient {
             },
         };
 
+        const token = localStorage.getItem('auth-storage')
+            ? JSON.parse(localStorage.getItem('auth-storage')!).state.token
+            : null;
+
+        if (token) {
+            (config.headers as Record<string, string>)['Authorization'] = `Bearer ${token}`;
+        }
+
         const response = await fetch(url, config);
 
         if (!response.ok) {

@@ -6,6 +6,8 @@ import { SoftwareHubPage } from './pages/SoftwareHubPage';
 import { AgentsHubPage } from './pages/AgentsHubPage';
 import { AutomationHubPage } from './pages/AutomationHubPage';
 
+import { SoftwareWorkspacePage } from './pages/SoftwareWorkspacePage';
+
 /**
  * Main App component with routing
  */
@@ -14,6 +16,7 @@ function App() {
     <Providers>
       <BrowserRouter>
         <Routes>
+          <Route path="/software/:projectId" element={<SoftwareWorkspacePage />} />
           <Route element={<MainLayout />}>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/software" element={<SoftwareHubPage />} />
