@@ -36,7 +36,7 @@ export const BaseNode: React.FC<BaseNodeProps> = ({
                 <CardHeader className="p-3 pb-0 flex flex-row items-center gap-2 space-y-0">
                     {icon && (
                         <div className={cn("p-1.5 rounded-md text-white/90 bg-white/10")}>
-                            {React.cloneElement(icon as React.ReactElement, { size: 14 })}
+                            {React.cloneElement(icon as React.ReactElement<any>, { size: 14, ...({} as any) })}
                         </div>
                     )}
                     <span className="text-sm font-semibold text-foreground/90 truncate">{data.label as string}</span>

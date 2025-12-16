@@ -1,11 +1,13 @@
-export enum DocumentType {
-    TIS = "TIS",
-    PRD = "PRD",
-    ARCHITECTURE = "ARCHITECTURE",
-    AGENT_SPEC = "AGENT_SPEC",
-    FLOW_SPEC = "FLOW_SPEC",
-    OTHER = "OTHER"
-}
+export const DocumentType = {
+    TIS: "TIS",
+    PRD: "PRD",
+    ARCHITECTURE: "ARCHITECTURE",
+    AGENT_SPEC: "AGENT_SPEC",
+    FLOW_SPEC: "FLOW_SPEC",
+    OTHER: "OTHER"
+} as const;
+
+export type DocumentType = typeof DocumentType[keyof typeof DocumentType];
 
 export interface Document {
     id: string;

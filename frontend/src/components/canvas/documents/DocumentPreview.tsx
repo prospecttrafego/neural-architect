@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Document } from '@/types/document.types';
+import type { Document } from '@/types/document.types';
 
 interface DocumentPreviewProps {
     document: Document;

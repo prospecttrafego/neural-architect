@@ -32,6 +32,7 @@ export interface Project {
     settings?: ProjectSettings;
     progress?: number;
     thumbnail_url?: string;
+    canvases?: { id: string }[];
 }
 
 export interface ProjectCreate {

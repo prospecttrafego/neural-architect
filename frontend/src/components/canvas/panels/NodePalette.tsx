@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+// import { Separator } from '@/components/ui/separator';
 import {
     PlayCircle,
     StopCircle,
@@ -36,7 +36,7 @@ const PaletteItem = ({ type, label, icon, color }: PaletteItemProps) => {
             draggable
         >
             <div className={cn("p-2 rounded-full bg-opacity-20 transition-all group-hover:bg-opacity-30", color)}>
-                {React.cloneElement(icon as React.ReactElement, { className: "w-5 h-5", strokeWidth: 1.5 })}
+                {React.cloneElement(icon as React.ReactElement, { className: "w-5 h-5", strokeWidth: 1.5, ...({} as any) })}
             </div>
             <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">{label}</span>
         </div>
@@ -62,7 +62,7 @@ export function NodePalette() {
                         </div>
                     </div>
 
-                    <Separator className="bg-white/5" />
+                    <div className="h-px bg-white/5 my-4" />
 
                     <div>
                         <h4 className="text-xs uppercase tracking-wider text-muted-foreground/60 font-semibold mb-3 pl-1">Services</h4>
@@ -72,7 +72,7 @@ export function NodePalette() {
                         </div>
                     </div>
 
-                    <Separator className="bg-white/5" />
+                    <div className="h-px bg-white/5 my-4" />
 
                     <div>
                         <h4 className="text-xs uppercase tracking-wider text-muted-foreground/60 font-semibold mb-3 pl-1">AI & Chat</h4>

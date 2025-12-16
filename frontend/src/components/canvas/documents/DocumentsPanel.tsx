@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useDocuments } from '@/hooks/useDocuments';
 import { DocumentPreview } from './DocumentPreview';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardDescription } from '@/components/ui/card';
 import { Loader2, FileText, Plus } from 'lucide-react';
 import { DocumentType } from '@/types/document.types';
+import type { Document } from '@/types/document.types';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface DocumentsPanelProps {
@@ -65,11 +66,11 @@ export const DocumentsPanel = ({ projectId }: DocumentsPanelProps) => {
                             No documents generated yet. Create one!
                         </div>
                     ) : (
-                        documents?.map((doc) => (
+                        documents?.map((d: Document) => (
                             <Card
-                                key={doc.id}
+                                key={d.id}
                                 className="cursor-pointer hover:bg-white/5 transition-colors border-white/10"
-                                onClick={() => setSelectedDocId(doc.id)}
+                                onClick={() => setSelectedDocId(d.id)}
                             >
                                 <CardHeader>
                                     <div className="flex items-center gap-2 mb-2">
@@ -77,12 +78,12 @@ export const DocumentsPanel = ({ projectId }: DocumentsPanelProps) => {
                                             <FileText className="h-5 w-5" />
                                         </div>
                                         <span className="text-xs font-mono bg-white/5 px-2 py-0.5 rounded text-muted-foreground">
-                                            {doc.type}
+                                            {d.type}
                                         </span>
                                     </div>
-                                    <CardTitle className="text-base">{doc.title}</CardTitle>
+                                    <div className="font-medium truncate">{d.title}</div>
                                     <CardDescription>
-                                        Date: {new Date(doc.created_at).toLocaleDateString()}
+                                        Date: {new Date(d.created_at).toLocaleDateString()}
                                     </CardDescription>
                                 </CardHeader>
                             </Card>

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
-import { Project, ProjectCreate, ProjectUpdate } from '../types/project.types';
+import type { Project, ProjectCreate, ProjectUpdate } from '../types/project.types';
 
 const PROJECTS_QUERY_KEY = ['projects'];
 

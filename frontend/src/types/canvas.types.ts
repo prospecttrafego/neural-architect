@@ -1,4 +1,4 @@
-```typescript
+
 import type {
     Connection,
     Edge,
@@ -49,4 +49,4 @@ export interface CanvasStore extends CanvasState {
     canUndo: boolean;
     canRedo: boolean;
 }
-```
+

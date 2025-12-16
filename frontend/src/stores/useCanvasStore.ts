@@ -3,16 +3,14 @@ import {
     addEdge,
     applyNodeChanges,
     applyEdgeChanges,
+    type Connection,
+    type Edge as FlowEdge,
+    type EdgeChange,
+    type Node as FlowNode,
+    type NodeChange,
+    type Viewport,
 } from '@xyflow/react';
-import type {
-    Connection,
-    Edge,
-    EdgeChange,
-    Node,
-    NodeChange,
-    Viewport,
-} from '@xyflow/react';
-import { CanvasStore } from '@/types/canvas.types';
+import type { CanvasStore, CanvasState } from '@/types/canvas.types';
 
 // Helper to keep history limited
 const MAX_HISTORY = 50;
@@ -28,16 +26,16 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
     canUndo: false,
     canRedo: false,
 
-    setNodes: (nodes) => {
+    setNodes: (nodes: FlowNode[]) => {
         set({ nodes });
     },
 
-    setEdges: (edges) => {
+    setEdges: (edges: FlowEdge[]) => {
         set({ edges });
     },
 
     onNodesChange: (changes: NodeChange[]) => {
-        set((state) => {
+        set((state: CanvasState) => {
             const newNodes = applyNodeChanges(changes, state.nodes);
 
             return {
@@ -47,7 +45,7 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
     },
 
     onEdgesChange: (changes: EdgeChange[]) => {
-        set((state) => {
+        set((state: CanvasState) => {
             return {
                 edges: applyEdgeChanges(changes, state.edges),
             };
@@ -55,7 +53,7 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
     },
 
     onConnect: (connection: Connection) => {
-        set((state) => {
+        set((state: CanvasState) => {
             const newEdges = addEdge(connection, state.edges);
             // Push to history
             const newPast = [
@@ -75,8 +73,8 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
         });
     },
 
-    addNode: (node: Node) => {
-        set((state) => {
+    addNode: (node: FlowNode) => {
+        set((state: CanvasState) => {
             const newNodes = [...state.nodes, node];
             const newPast = [
                 ...state.history.past,
@@ -95,8 +93,8 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
         });
     },
 
-    updateNodeData: (id, data) => {
-        set((state) => ({
+    updateNodeData: (id: string, data: any) => {
+        set((state: CanvasState) => ({
             nodes: state.nodes.map((node) =>
                 node.id === id ? { ...node, data: { ...node.data, ...data } } : node
             ),
@@ -108,7 +106,7 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
     },
 
     undo: () => {
-        set((state) => {
+        set((state: CanvasState) => {
             const { past, future } = state.history;
             if (past.length === 0) return state;
 
@@ -129,7 +127,7 @@ export const useCanvasStore = create<CanvasStore>((set, get) => ({
     },
 
     redo: () => {
-        set((state) => {
+        set((state: CanvasState) => {
             const { past, future } = state.history;
             if (future.length === 0) return state;
 

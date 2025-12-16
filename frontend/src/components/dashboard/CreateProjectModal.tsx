@@ -15,9 +15,7 @@ const formSchema = z.object({
         message: "Nome deve ter pelo menos 2 caracteres.",
     }),
     description: z.string().optional(),
-    category: z.nativeEnum(ProjectCategory, {
-        errorMap: () => ({ message: "Selecione uma categoria." }),
-    }),
+    category: z.nativeEnum(ProjectCategory),
 });
 
 interface CreateProjectModalProps {

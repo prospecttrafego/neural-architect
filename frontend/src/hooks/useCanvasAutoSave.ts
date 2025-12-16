@@ -3,7 +3,7 @@ import { useCanvasStore } from '@/stores/useCanvasStore';
 import { useMutation } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { toast } from 'sonner';
-import { CanvasState } from '@/types/canvas.types';
+import type { CanvasState } from '@/types/canvas.types';
 import { useShallow } from 'zustand/react/shallow';
 
 const AUTO_SAVE_DELAY = 2000; // 2 seconds
@@ -20,7 +20,7 @@ export function useCanvasAutoSave(projectId: string | undefined, canvasId: strin
 
     // Ref to track if internal changes are happening vs initial load
     const isFirstRender = useRef(true);
-    const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+    const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
     const saveCanvas = useMutation({
         mutationFn: async (data: Partial<CanvasState>) => {
