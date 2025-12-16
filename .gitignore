@@ -1,0 +1,129 @@
+# ========================================
+# Neural Architect - .gitignore
+# ========================================
+
+# =============
+# OS Files
+# =============
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# =============
+# IDE & Editors
+# =============
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# =============
+# Frontend (Node.js)
+# =============
+node_modules/
+dist/
+build/
+.pnpm-store/
+*.local
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+.turbo/
+*.tsbuildinfo
+
+# =============
+# Backend (Python)
+# =============
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+.env/
+ENV/
+*.egg-info/
+.eggs/
+*.egg
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# uv
+.uv/
+uv.lock
+
+# =============
+# Data & Uploads
+# =============
+backend/data/
+backend/uploads/
+*.db
+*.sqlite3
+
+# LanceDB
+data/lancedb/
+
+# =============
+# Docker
+# =============
+.docker/
+
+# =============
+# Environment
+# =============
+.env
+.env.*
+!.env.example
+
+# =============
+# Secrets
+# =============
+*.pem
+*.key
+secrets/
+
+# =============
+# Logs
+# =============
+logs/
+*.log
+
+# =============
+# Temp files
+# =============
+tmp/
+temp/
+*.tmp
+*.temp
+
+# =============
+# Agent/AI Files
+# =============
+.gemini/
+.agent/rules/
