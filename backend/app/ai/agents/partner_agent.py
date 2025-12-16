@@ -2,6 +2,7 @@ from agno.agent import Agent
 from backend.app.ai.models.model_config import ModelConfig
 from backend.app.ai.tools.canvas_tools import CanvasTools
 from backend.app.ai.prompts.system_prompts import PARTNER_SYSTEM_PROMPT
+from backend.app.ai.knowledge.setup import get_knowledge_base
 
 class PartnerAgent:
     def __init__(self, db_session):
@@ -12,6 +13,8 @@ class PartnerAgent:
             model=ModelConfig.get_sonnet(),
             system_prompt=PARTNER_SYSTEM_PROMPT,
             tools=[self.canvas_tools],
+            knowledge_base=get_knowledge_base(),
+            search_knowledge=True,
             show_tool_calls=True,
             markdown=True,
         )

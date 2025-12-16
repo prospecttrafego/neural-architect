@@ -15,10 +15,12 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { NodeInspector } from '@/components/canvas/panels/NodeInspector';
 import { PartnerChat } from '@/components/canvas/partner/PartnerChat';
 
+import { KnowledgeBase } from '@/components/knowledge/KnowledgeBase';
+
 export function SoftwareWorkspacePage() {
     const { projectId } = useParams<{ projectId: string }>();
     const { project, isLoading, isError } = useProject(projectId!);
-    const [view, setView] = useState<'canvas' | 'documents'>('canvas');
+    const [view, setView] = useState<'canvas' | 'documents' | 'knowledge'>('canvas');
 
     // Auto-save integration
     // We need to fetch the canvas ID associated with the project first, or assuming project has canvas_id
@@ -94,6 +96,14 @@ export function SoftwareWorkspacePage() {
                         >
                             Documents
                         </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className={cn("h-8 px-3 rounded-md", view === 'knowledge' ? "bg-primary/20 text-primary" : "text-muted-foreground hover:text-foreground")}
+                            onClick={() => setView('knowledge')}
+                        >
+                            Knowledge
+                        </Button>
                     </div>
                 </div>
 
@@ -145,8 +155,10 @@ export function SoftwareWorkspacePage() {
                         <div className="absolute inset-0">
                             <Canvas />
                         </div>
-                    ) : (
+                    ) : view === 'documents' ? (
                         <DocumentsPanel projectId={projectId!} />
+                    ) : (
+                        <KnowledgeBase />
                     )}
                 </div>
 
