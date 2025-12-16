@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useProjects } from '@/hooks/useProjects';
 import { ProjectCard } from '@/components/dashboard/ProjectCard';
 import { CreateProjectModal } from '@/components/dashboard/CreateProjectModal';
@@ -57,7 +58,11 @@ export default function DashboardPage() {
                     ))}
                 </div>
             ) : projects.length === 0 ? (
-                <div className="flex flex-col items-center justify-center min-h-[400px] border border-dashed border-white/10 rounded-2xl bg-white/5 p-8 text-center animate-in fade-in zoom-in duration-500">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="flex flex-col items-center justify-center min-h-[400px] border border-dashed border-white/10 rounded-2xl bg-white/5 p-8 text-center"
+                >
                     <div className="p-4 rounded-full bg-primary/10 mb-4">
                         <Plus className="h-8 w-8 text-primary" />
                     </div>
@@ -68,9 +73,14 @@ export default function DashboardPage() {
                     <Button onClick={() => setIsCreateModalOpen(true)} variant="outline" className="border-primary/50 text-primary hover:bg-primary/10">
                         Criar Primeiro Projeto
                     </Button>
-                </div>
+                </motion.div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ staggerChildren: 0.1 }}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                >
                     {projects.map((project) => (
                         <ProjectCard
                             key={project.id}
@@ -78,7 +88,7 @@ export default function DashboardPage() {
                             onDelete={handleDeleteProject}
                         />
                     ))}
-                </div>
+                </motion.div>
             )}
 
             <CreateProjectModal

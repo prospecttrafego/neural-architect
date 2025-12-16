@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -18,6 +19,8 @@ interface ProjectCardProps {
     project: Project;
     onDelete: (id: string) => void;
 }
+
+const MotionCard = motion(Card);
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete }) => {
     const getCategoryIcon = (category: ProjectCategory) => {
@@ -46,13 +49,20 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete }) =
         }
     };
 
+
     return (
-        <Card className="group relative overflow-hidden bg-black/40 border-white/10 hover:border-white/20 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+        <MotionCard
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            whileHover={{ y: -5, transition: { duration: 0.2 } }}
+            className="group relative overflow-hidden bg-black/40 border-white/10 hover:border-white/20 transition-colors hover:shadow-2xl hover:shadow-primary/5"
+        >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-white/5 border border-white/5">
+                    <div className="p-2 rounded-lg bg-white/5 border border-white/5 group-hover:bg-primary/10 group-hover:border-primary/20 transition-colors duration-300">
                         {getCategoryIcon(project.category)}
                     </div>
                     <div className="flex flex-col gap-1">
@@ -67,7 +77,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete }) =
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-white">
+                        <Button variant="ghost" className="h-8 w-8 p-0 text-muted-foreground hover:text-white opacity-0 group-hover:opacity-100 transition-opacity">
                             <span className="sr-only">Open menu</span>
                             <MoreVertical className="h-4 w-4" />
                         </Button>
@@ -112,6 +122,6 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, onDelete }) =
                     </Button>
                 </Link>
             </CardFooter>
-        </Card>
+        </MotionCard>
     );
 };
