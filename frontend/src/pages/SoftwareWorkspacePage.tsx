@@ -9,9 +9,20 @@ import { Button } from '@/components/ui/button';
 import { Save, ArrowLeft, Share2, Settings } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+import { useCanvasAutoSave } from '@/hooks/useCanvasAutoSave';
+
 export function SoftwareWorkspacePage() {
     const { projectId } = useParams<{ projectId: string }>();
     const { project, isLoading, isError } = useProject(projectId!);
+
+    // Auto-save integration
+    // We need to fetch the canvas ID associated with the project first, or assuming project has canvas_id
+    // For now, let's assume project object has a canvas_id or we fetch it.
+    // Based on models, Project has 'canvases' relationship.
+    // Let's assume we use the first canvas or a specific one.
+    // For simplicity validation, passing projectId for now if backend handles it, or finding canvas.
+    const canvasId = project?.canvases?.[0]?.id;
+    const { isSaving, lastSaved } = useCanvasAutoSave(projectId, canvasId);
 
     if (isLoading) {
         return (
@@ -64,13 +75,22 @@ export function SoftwareWorkspacePage() {
                 <div className="flex items-center gap-2">
                     <div className="text-xs text-muted-foreground mr-4">
                         {/* Status indicator */}
-                        <span className="flex items-center gap-1.5">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                            </span>
-                            Auto-saved
-                        </span>
+                        <div className="flex items-center gap-2">
+                            {isSaving ? (
+                                <span className="flex items-center gap-1.5 text-yellow-500">
+                                    <span className="relative flex h-2 w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-yellow-500"></span>
+                                    </span>
+                                    Saving...
+                                </span>
+                            ) : (
+                                <span className="flex items-center gap-1.5 text-emerald-500">
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                    {lastSaved ? `Saved ${lastSaved.toLocaleTimeString()}` : 'Ready'}
+                                </span>
+                            )}
+                        </div>
                     </div>
                     <Button variant="outline" size="sm" className="h-8 gap-2 border-white/10 hover:bg-white/5">
                         <Share2 className="h-3.5 w-3.5" />
@@ -101,10 +121,15 @@ export function SoftwareWorkspacePage() {
                     </div>
                 </div>
 
-                {/* Right Panel - Inspector/Chat (Placeholder for now) */}
-                {/* <div className="w-80 border-l border-white/5 bg-background/50 backdrop-blur-xl z-10">
-                    Inspector Panel
-                </div> */}
+                import {NodeInspector} from '@/components/canvas/panels/NodeInspector';
+                // ... (imports)
+
+                // ... (component code)
+
+                {/* Right Panel - Inspector/Chat */}
+                <div className="w-80 border-l border-white/5 bg-background/50 backdrop-blur-xl z-10 shrink-0">
+                    <NodeInspector />
+                </div>
             </div>
         </div>
     );
