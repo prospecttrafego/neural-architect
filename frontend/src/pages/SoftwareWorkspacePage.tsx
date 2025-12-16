@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
 import { useParams } from 'react-router-dom';
 import { Canvas } from '@/components/canvas/Canvas';
 import { NodePalette } from '@/components/canvas/panels/NodePalette';
@@ -6,13 +8,18 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Save, ArrowLeft, Share2, Settings } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 import { useCanvasAutoSave } from '@/hooks/useCanvasAutoSave';
+import { DocumentsPanel } from '@/components/canvas/documents/DocumentsPanel';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { NodeInspector } from '@/components/canvas/panels/NodeInspector';
+import { PartnerChat } from '@/components/canvas/panels/PartnerChat';
+import { cn } from '@/lib/utils';
 
 export function SoftwareWorkspacePage() {
     const { projectId } = useParams<{ projectId: string }>();
     const { project, isLoading, isError } = useProject(projectId!);
+    const [view, setView] = useState<'canvas' | 'documents'>('canvas');
 
     // Auto-save integration
     // We need to fetch the canvas ID associated with the project first, or assuming project has canvas_id
@@ -69,6 +76,26 @@ export function SoftwareWorkspacePage() {
                             </Badge>
                         </div>
                     </div>
+
+                    {/* View Toggle */}
+                    <div className="flex items-center ml-8 bg-white/5 rounded-lg p-1 border border-white/5">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className={cn("h-8 px-3 rounded-md", view === 'canvas' ? "bg-primary/20 text-primary" : "text-muted-foreground hover:text-foreground")}
+                            onClick={() => setView('canvas')}
+                        >
+                            Canvas
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className={cn("h-8 px-3 rounded-md", view === 'documents' ? "bg-primary/20 text-primary" : "text-muted-foreground hover:text-foreground")}
+                            onClick={() => setView('documents')}
+                        >
+                            Documents
+                        </Button>
+                    </div>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -91,16 +118,14 @@ export function SoftwareWorkspacePage() {
                             )}
                         </div>
                     </div>
-                    <Button variant="outline" size="sm" className="h-8 gap-2 border-white/10 hover:bg-white/5">
-                        <Share2 className="h-3.5 w-3.5" />
-                        Share
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Share2 className="h-4 w-4" />
                     </Button>
-                    <Button variant="outline" size="sm" className="h-8 gap-2 border-white/10 hover:bg-white/5">
-                        <Settings className="h-3.5 w-3.5" />
-                        Settings
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Settings className="h-4 w-4" />
                     </Button>
-                    <Button size="sm" className="h-8 gap-2 bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20">
-                        <Save className="h-3.5 w-3.5" />
+                    <Button size="sm" className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-[0_0_10px_rgba(var(--primary-rgb),0.5)]">
+                        <Save className="mr-2 h-4 w-4" />
                         Export
                     </Button>
                 </div>
@@ -108,16 +133,22 @@ export function SoftwareWorkspacePage() {
 
             {/* Main Workspace Area */}
             <div className="flex-1 flex overflow-hidden relative">
-                {/* Left Panel - Palette */}
-                <div className="z-10 h-full">
-                    <NodePalette />
-                </div>
-
-                {/* Center - Canvas */}
-                <div className="flex-1 h-full relative bg-background/95">
-                    <div className="absolute inset-0">
-                        <Canvas />
+                {/* Left Panel - Palette (Only visible in Canvas view) */}
+                {view === 'canvas' && (
+                    <div className="z-10 h-full">
+                        <NodePalette />
                     </div>
+                )}
+
+                {/* Center - Canvas or Documents */}
+                <div className="flex-1 h-full relative bg-background/95">
+                    {view === 'canvas' ? (
+                        <div className="absolute inset-0">
+                            <Canvas />
+                        </div>
+                    ) : (
+                        <DocumentsPanel projectId={projectId!} />
+                    )}
                 </div>
 
                 {/* Right Panel - Inspector/Chat */}
@@ -135,7 +166,7 @@ export function SoftwareWorkspacePage() {
                         </TabsContent>
 
                         <TabsContent value="partner" className="flex-1 mt-0 h-full overflow-hidden data-[state=inactive]:hidden">
-                            <PartnerChat projectId={project.id} />
+                            <PartnerChat projectId={project!.id} />
                         </TabsContent>
                     </Tabs>
                 </div>

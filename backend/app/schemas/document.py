@@ -1,31 +1,22 @@
-from typing import List, Optional, Any, Dict
-from uuid import UUID
-from datetime import datetime
 from pydantic import BaseModel
-from enum import Enum
-
-class DocumentType(str, Enum):
-    TIS = "TIS"
-    PRD = "PRD"
-    ARCHITECTURE = "ARCHITECTURE"
-    AGENT_SPEC = "AGENT_SPEC"
-    FLOW_SPEC = "FLOW_SPEC"
-    OTHER = "OTHER"
+from typing import Optional
+from datetime import datetime
+from uuid import UUID
 
 class DocumentBase(BaseModel):
     title: str
-    type: DocumentType
+    type: str
     content: Optional[str] = None
     version: Optional[str] = "1.0"
 
 class DocumentCreate(DocumentBase):
     project_id: UUID
 
-class DocumentUpdate(DocumentBase):
+class DocumentUpdate(BaseModel):
     title: Optional[str] = None
-    type: Optional[DocumentType] = None
+    content: Optional[str] = None
 
-class DocumentInDBBase(DocumentBase):
+class DocumentResponse(DocumentBase):
     id: UUID
     project_id: UUID
     created_at: datetime
@@ -34,5 +25,6 @@ class DocumentInDBBase(DocumentBase):
     class Config:
         from_attributes = True
 
-class Document(DocumentInDBBase):
-    pass
+class DocumentGenerateRequest(BaseModel):
+    project_id: UUID
+    type: str
