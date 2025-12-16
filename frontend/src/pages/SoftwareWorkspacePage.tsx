@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Canvas } from '@/components/canvas/Canvas';
 import { NodePalette } from '@/components/canvas/panels/NodePalette';
@@ -121,14 +120,24 @@ export function SoftwareWorkspacePage() {
                     </div>
                 </div>
 
-                import {NodeInspector} from '@/components/canvas/panels/NodeInspector';
-                // ... (imports)
-
-                // ... (component code)
-
                 {/* Right Panel - Inspector/Chat */}
-                <div className="w-80 border-l border-white/5 bg-background/50 backdrop-blur-xl z-10 shrink-0">
-                    <NodeInspector />
+                <div className="w-80 border-l border-white/5 bg-background/50 backdrop-blur-xl z-10 shrink-0 flex flex-col">
+                    <Tabs defaultValue="properties" className="flex-1 flex flex-col">
+                        <div className="p-2 border-b border-white/5">
+                            <TabsList className="w-full grid grid-cols-2 bg-white/5">
+                                <TabsTrigger value="properties">Properties</TabsTrigger>
+                                <TabsTrigger value="partner">Partner AI</TabsTrigger>
+                            </TabsList>
+                        </div>
+
+                        <TabsContent value="properties" className="flex-1 mt-0 h-full overflow-hidden data-[state=inactive]:hidden">
+                            <NodeInspector />
+                        </TabsContent>
+
+                        <TabsContent value="partner" className="flex-1 mt-0 h-full overflow-hidden data-[state=inactive]:hidden">
+                            <PartnerChat projectId={project.id} />
+                        </TabsContent>
+                    </Tabs>
                 </div>
             </div>
         </div>
